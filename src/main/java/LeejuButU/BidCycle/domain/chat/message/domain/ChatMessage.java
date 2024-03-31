@@ -16,16 +16,21 @@ public class ChatMessage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long chatMessageId;
+
     @Column(updatable = false)
     private String message;
+
     @Column(updatable = false)
     private String imageURL;
+
     @Column(updatable = false, nullable = false)
     private LocalDateTime sendTime;
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @Column(updatable = false, nullable = false)
+    @JoinColumn(name = "sender_id", updatable = false, nullable = false)
     private Member sender;
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @Column(updatable = false, nullable = false)
+    @JoinColumn(name = "chat_room_id", updatable = false, nullable = false)
     private ChatRoom chatRoom;
 }

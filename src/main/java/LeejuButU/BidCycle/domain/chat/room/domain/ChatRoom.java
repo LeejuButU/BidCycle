@@ -16,6 +16,7 @@ public class ChatRoom {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "seller_id", updatable = false, nullable = false)
     Member seller;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "buyer_id", updatable = false, nullable = false)
     Member buyer;
