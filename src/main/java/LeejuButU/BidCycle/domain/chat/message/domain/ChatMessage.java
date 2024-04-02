@@ -22,13 +22,16 @@ public class ChatMessage {
     @Column(updatable = false)
     private String imageURL;
 
+    @NonNull
     @Column(updatable = false, nullable = false)
     private LocalDateTime sendTime;
 
+    @NonNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sender_id", updatable = false, nullable = false)
     private Member sender;
 
+    @NonNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "chat_room_id", updatable = false, nullable = false)
     private ChatRoom chatRoom;

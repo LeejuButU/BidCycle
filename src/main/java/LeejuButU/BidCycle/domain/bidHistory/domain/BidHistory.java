@@ -15,9 +15,11 @@ public class BidHistory {
     private Long bidHistoryId;
 
     @NonNull
+    @Column(nullable = false)
     private Long bidPrice;
 
     @NonNull
+    @Column(nullable = false)
     private LocalDateTime bidTime;
 
     @ManyToOne(fetch = FetchType.LAZY)

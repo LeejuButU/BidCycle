@@ -12,10 +12,12 @@ public class ChatRoom {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long chatRoomId;
 
+    @NonNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "seller_id", updatable = false, nullable = false)
     private Member seller;
 
+    @NonNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "buyer_id", updatable = false, nullable = false)
     private Member buyer;
