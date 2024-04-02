@@ -3,14 +3,13 @@ package LeejuButU.BidCycle.domain.chat.message.domain;
 import LeejuButU.BidCycle.domain.chat.room.domain.ChatRoom;
 import LeejuButU.BidCycle.domain.member.domain.Member;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Entity
-@AllArgsConstructor
+@Getter
+@RequiredArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ChatMessage {
     @Id
@@ -23,13 +22,16 @@ public class ChatMessage {
     @Column(updatable = false)
     private String imageURL;
 
+    @NonNull
     @Column(updatable = false, nullable = false)
     private LocalDateTime sendTime;
 
+    @NonNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sender_id", updatable = false, nullable = false)
     private Member sender;
 
+    @NonNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "chat_room_id", updatable = false, nullable = false)
     private ChatRoom chatRoom;
