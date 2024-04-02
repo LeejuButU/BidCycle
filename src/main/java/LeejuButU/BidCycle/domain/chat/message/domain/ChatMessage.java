@@ -3,14 +3,13 @@ package LeejuButU.BidCycle.domain.chat.message.domain;
 import LeejuButU.BidCycle.domain.chat.room.domain.ChatRoom;
 import LeejuButU.BidCycle.domain.member.domain.Member;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Entity
-@AllArgsConstructor
+@Getter
+@RequiredArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ChatMessage {
     @Id
