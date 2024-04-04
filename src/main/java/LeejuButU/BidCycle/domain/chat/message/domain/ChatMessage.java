@@ -9,30 +9,29 @@ import java.time.LocalDateTime;
 
 @Entity
 @Getter
-@RequiredArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ChatMessage {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long chatMessageId;
 
-    @Column(updatable = false)
+    @Column(updatable = false, length = 500)
     private String message;
 
-    @Column(updatable = false)
+    @Column(updatable = false, length = 200)
     private String imageURL;
 
     @NonNull
-    @Column(updatable = false, nullable = false)
+    @Column(nullable = false, updatable = false)
     private LocalDateTime sendTime;
 
     @NonNull
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "sender_id", updatable = false, nullable = false)
+    @JoinColumn(name = "sender_id", nullable = false, updatable = false)
     private Member sender;
 
     @NonNull
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "chat_room_id", updatable = false, nullable = false)
+    @JoinColumn(name = "chat_room_id", nullable = false, updatable = false)
     private ChatRoom chatRoom;
 }

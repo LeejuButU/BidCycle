@@ -12,16 +12,15 @@ import lombok.NonNull;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Photo {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long photoId;
 
     @NonNull
-    @Column(updatable = false, nullable = false)
+    @Column(nullable = false, updatable = false, length = 200)
     private String imageURL;
 
     @NonNull
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_id", nullable = false)
+    @JoinColumn(name = "product_id", nullable = false, updatable = false)
     private Product product;
 }

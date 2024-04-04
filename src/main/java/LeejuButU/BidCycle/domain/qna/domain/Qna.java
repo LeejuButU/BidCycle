@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Qna {
+
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long qnaId;
 
