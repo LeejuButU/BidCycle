@@ -2,15 +2,13 @@ package LeejuButU.BidCycle.domain.qna.domain;
 
 import LeejuButU.BidCycle.domain.product.domain.Product;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Qna {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long qnaId;
