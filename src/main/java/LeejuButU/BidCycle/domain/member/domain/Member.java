@@ -18,7 +18,7 @@ public class Member {
 
     @NonNull
     @Column(nullable = false, updatable = false, length = 20)
-    private String id;
+    private String loginId;
 
     @NonNull
     @Column(nullable = false, length = 20)

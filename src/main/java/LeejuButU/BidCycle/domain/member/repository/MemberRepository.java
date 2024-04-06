@@ -15,12 +15,13 @@ public class MemberRepository {
     private final EntityManager em;
 
     // CREATE
-    public void save(Member member) {
+    public Long save(Member member) {
         em.persist(member);
+        return member.getMemberId();
     }
 
     // READ
-    public Optional<Member> findByMemberId(Long memberId) {
+    public Optional<Member> findById(Long memberId) {
         Member member = em.find(Member.class, memberId);
         return Optional.ofNullable(member);
     }
@@ -46,6 +47,11 @@ public class MemberRepository {
 
     // DELETE
     public void delete(Member member){
+        em.remove(member);
+    }
+
+    public void deleteById(Long memberId){
+        Member member = findById(memberId).orElseThrow(IllegalArgumentException::new);
         em.remove(member);
     }
 }
