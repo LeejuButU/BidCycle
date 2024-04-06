@@ -13,16 +13,14 @@ import java.util.Optional;
 public class BidHistoryRepository {
     private final EntityManager entityManager;
 
-    public Optional<BidHistory> findById(Long id) {
-        BidHistory bidHistory = entityManager.find(BidHistory.class, id);
-        if (bidHistory == null)
-            return Optional.empty();
-        return Optional.of(bidHistory);
-    }
-
     public Long save(BidHistory bidHistory) {
         entityManager.persist(bidHistory);
         return bidHistory.getBidHistoryId();
+    }
+
+    public Optional<BidHistory> findById(Long bidHistoryId) {
+        BidHistory bidHistory = entityManager.find(BidHistory.class, bidHistoryId);
+        return Optional.ofNullable(bidHistory);
     }
 
     public List<BidHistory> findAll() {
@@ -31,12 +29,17 @@ public class BidHistoryRepository {
                 .getResultList();
     }
 
+    public Long update(BidHistory bidHistory) {
+        entityManager.merge(bidHistory);
+        return bidHistory.getBidHistoryId();
+    }
+
     public void delete(BidHistory bidHistory) {
         entityManager.remove(bidHistory);
     }
 
-    public void deleteById(Long historyId) {
-        BidHistory history = findById(historyId).orElseThrow(IllegalArgumentException::new);
+    public void deleteById(Long bidHistoryId) {
+        BidHistory history = findById(bidHistoryId).orElseThrow(IllegalArgumentException::new);
         entityManager.remove(history);
     }
 }
