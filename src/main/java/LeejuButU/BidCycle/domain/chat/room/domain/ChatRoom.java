@@ -21,4 +21,10 @@ public class ChatRoom {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "buyer_id", nullable = false, updatable = false)
     private Member buyer;
+
+    @Builder
+    public ChatRoom(@NonNull Member seller, @NonNull Member buyer) {
+        this.seller = seller;
+        this.buyer = buyer;
+    }
 }

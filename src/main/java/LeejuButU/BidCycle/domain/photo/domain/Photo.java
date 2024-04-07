@@ -2,10 +2,7 @@ package LeejuButU.BidCycle.domain.photo.domain;
 
 import LeejuButU.BidCycle.domain.product.domain.Product;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
+import lombok.*;
 
 @Entity
 @Getter
@@ -23,4 +20,10 @@ public class Photo {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id", nullable = false, updatable = false)
     private Product product;
+
+    @Builder
+    public Photo(@NonNull String imageURL, @NonNull Product product) {
+        this.imageURL = imageURL;
+        this.product = product;
+    }
 }

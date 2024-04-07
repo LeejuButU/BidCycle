@@ -22,4 +22,10 @@ public class InterestProduct {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id", nullable = false, updatable = false)
     private Product product;
+
+    @Builder
+    public InterestProduct(@NonNull Member member, @NonNull Product product) {
+        this.member = member;
+        this.product = product;
+    }
 }
