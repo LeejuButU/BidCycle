@@ -4,10 +4,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
+import lombok.*;
 
 @Entity
 @Getter
@@ -31,4 +28,12 @@ public class Member {
     @NonNull
     @Column(nullable = false, length = 100)
     private String town;
+
+    @Builder
+    public Member(@NonNull String loginId, @NonNull String password, @NonNull String nickname, @NonNull String town) {
+        this.loginId = loginId;
+        this.password = password;
+        this.nickname = nickname;
+        this.town = town;
+    }
 }

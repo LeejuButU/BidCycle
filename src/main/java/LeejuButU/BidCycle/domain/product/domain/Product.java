@@ -2,10 +2,7 @@ package LeejuButU.BidCycle.domain.product.domain;
 
 import LeejuButU.BidCycle.domain.member.domain.Member;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -63,4 +60,20 @@ public class Product {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "seller_id", nullable = false, updatable = false)
     private Member seller;
+
+    @Builder
+    public Product(@NonNull String title, @NonNull String category, @NonNull String description, @NonNull LocalDateTime startDate, @NonNull LocalDateTime endDate, @NonNull Long startPrice, @NonNull Long currentPrice, @NonNull Long endPrice, @NonNull String state, LocalDateTime tradeDate, Member buyer, @NonNull Member seller) {
+        this.title = title;
+        this.category = category;
+        this.description = description;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.startPrice = startPrice;
+        this.currentPrice = currentPrice;
+        this.endPrice = endPrice;
+        this.state = state;
+        this.tradeDate = tradeDate;
+        this.buyer = buyer;
+        this.seller = seller;
+    }
 }

@@ -33,4 +33,13 @@ public class Qna {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id", nullable = false, updatable = false)
     private Product product;
+
+    @Builder
+    public Qna(@NonNull String title, @NonNull String content, @NonNull LocalDateTime createDate, String answer, @NonNull Product product) {
+        this.title = title;
+        this.content = content;
+        this.createDate = createDate;
+        this.answer = answer;
+        this.product = product;
+    }
 }

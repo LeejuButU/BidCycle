@@ -34,4 +34,13 @@ public class ChatMessage {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "chat_room_id", nullable = false, updatable = false)
     private ChatRoom chatRoom;
+
+    @Builder
+    public ChatMessage(String message, String imageURL, @NonNull LocalDateTime sendTime, @NonNull Member sender, @NonNull ChatRoom chatRoom) {
+        this.message = message;
+        this.imageURL = imageURL;
+        this.sendTime = sendTime;
+        this.sender = sender;
+        this.chatRoom = chatRoom;
+    }
 }

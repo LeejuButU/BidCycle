@@ -32,4 +32,12 @@ public class BidHistory {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id", nullable = false, updatable = false)
     private Product product;
+
+    @Builder
+    public BidHistory(@NonNull Long bidPrice, @NonNull LocalDateTime bidTime, @NonNull Member bidder, @NonNull Product product) {
+        this.bidPrice = bidPrice;
+        this.bidTime = bidTime;
+        this.bidder = bidder;
+        this.product = product;
+    }
 }
