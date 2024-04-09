@@ -82,6 +82,9 @@ public class Fixture {
 
     /* ChatMessage */
     public static ChatMessage generateChatMessage(String message, String imageURL, Member seller, ChatRoom chatRoom){
+        if(message == null && imageURL == null){
+            throw new IllegalArgumentException("Message or imageURL must be provided.");
+        }
         return new ChatMessage(
                 message,
                 imageURL,
