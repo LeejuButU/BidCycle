@@ -24,7 +24,7 @@ public class Fixture {
     }
 
     /* Product */
-    public static Product generateProduct(Member buyer, Member seller){
+    public static Product generateProduct(LocalDateTime tradeDate, Member buyer, Member seller){
         return new Product(
                 "노트북 팔아요.",
                 "디지털기기",
@@ -34,8 +34,8 @@ public class Fixture {
                 1500000L,
                 2000000L,
                 2500000L,
-                "낙찰 완료",
-                LocalDateTime.of(2024, 6, 8, 8, 5),
+                "거래중",
+                tradeDate,
                 buyer,
                 seller
         );
@@ -50,12 +50,12 @@ public class Fixture {
     }
 
     /* Q&A */
-    public static Qna generateQna(Product product){
+    public static Qna generateQna(String answer, Product product){
         return new Qna(
                 "몇인치인가요?",
                 "사진만 봐서는 잘 모르겠는데 몇인치인지 알려주실 수 있나요?",
                 LocalDateTime.of(2024, 5, 15, 3, 20),
-                "14인치입니다!",
+                answer,
                 product
         );
     }
@@ -81,10 +81,10 @@ public class Fixture {
     }
 
     /* ChatMessage */
-    public static ChatMessage generateChatMessage(Member seller, ChatRoom chatRoom){
+    public static ChatMessage generateChatMessage(String message, String imageURL, Member seller, ChatRoom chatRoom){
         return new ChatMessage(
-                "안녕하세요.",
-                "https://source.unsplash.com/featured/?computer",
+                message,
+                imageURL,
                 LocalDateTime.of(2024, 5, 25, 9, 40),
                 seller,
                 chatRoom
