@@ -31,7 +31,7 @@ public class MemberRepositoryTest {
         repository.save(member);
 
         //then
-        Optional<Member> result = repository.findById(member.getMemberId());
+        Member result = repository.findById(member.getMemberId()).orElseThrow(IllegalArgumentException::new);
         assertThat(result).usingRecursiveComparison().isEqualTo(member);
     }
 
