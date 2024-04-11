@@ -22,4 +22,10 @@
 - update (o) / change (x)   
   - Ex) **updateNickname** (o) / **changeNickname** (x)
 
+### Test Code convention
+- BDD 방식으로 테스트 코드 작성   
+  `given, when, then` 으로 명시하여 테스트 작성
+- 테스트 함수의 경우 앞에 `test_` prefix 붙이기
+  - Ex) **test_create_member()** (o) / create_member() (x)
+
   
