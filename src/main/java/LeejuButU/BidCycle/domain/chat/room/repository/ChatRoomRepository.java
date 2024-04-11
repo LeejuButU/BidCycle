@@ -38,7 +38,7 @@ public class ChatRoomRepository {
     }
 
     public void deleteById(Long chatRoomId) {
-        ChatRoom chatRoom = em.find(ChatRoom.class, chatRoomId);
+        ChatRoom chatRoom = findById(chatRoomId).orElseThrow(IllegalArgumentException::new);
         em.remove(chatRoom);
     }
 }
