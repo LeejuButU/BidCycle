@@ -23,6 +23,7 @@ public class MemberRepositoryTest {
     private MemberRepository repository;
 
     @Test
+    @DisplayName("멤버 저장")
     public void test_save(){
         //given
         Member member = generateMember("alice99");
@@ -36,6 +37,7 @@ public class MemberRepositoryTest {
     }
 
     @Test
+    @DisplayName("아이디로 멤버 찾기")
     public void test_findById(){
         //given
         Member member = generateMember("alice99");
@@ -49,6 +51,7 @@ public class MemberRepositoryTest {
     }
 
     @Test
+    @DisplayName("닉네임으로 멤버 찾기")
     public void test_findByNickname(){
         //given
         Member member = generateMember("alice99");
@@ -62,6 +65,7 @@ public class MemberRepositoryTest {
     }
 
     @Test
+    @DisplayName("모든 멤버 조회")
     public void test_findAll(){
         //given
         Member member1 = generateMember("alice99");
@@ -77,6 +81,7 @@ public class MemberRepositoryTest {
     }
 
     @Test
+    @DisplayName("멤버 정보 업데이트")
     public void test_update(){
         //given
         Member member = generateMember("alice99");
@@ -94,6 +99,7 @@ public class MemberRepositoryTest {
     }
 
     @Test
+    @DisplayName("멤버 삭제")
     public void test_delete(){
         //given
         Member member = generateMember("alice99");
@@ -108,6 +114,7 @@ public class MemberRepositoryTest {
     }
 
     @Test
+    @DisplayName("아이디로 멤버 삭제")
     public void test_deleteById(){
         //given
         Member member = generateMember("alice99");
