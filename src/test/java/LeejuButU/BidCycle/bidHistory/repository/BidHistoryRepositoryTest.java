@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 class BidHistoryRepositoryTest {
     @Autowired
-    private BidHistoryRepository repository;
+    private BidHistoryRepository repository; // 빈으로 등록이 왜 안돼징
 
     @Test
     @DisplayName("없는 ID를 조회하면 오류가 발생한다.")
