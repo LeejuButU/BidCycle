@@ -41,13 +41,13 @@ public class MemberRepositoryTest {
     public void test_findById(){
         //given
         Member member = generateMember("alice99");
-        Long memberId = repository.save(member);
+        repository.save(member);
 
         //when
         Member result = repository.findById(member.getMemberId()).orElseThrow();
 
         //then
-        assertThat(result.getMemberId()).isEqualTo(memberId);
+        assertThat(result.getMemberId()).isEqualTo(member.getMemberId());
     }
 
     @Test
@@ -86,12 +86,11 @@ public class MemberRepositoryTest {
         //given
         Member member = generateMember("alice99");
         repository.save(member);
+
+        //when
         member.updatePassword("0000");
         member.updateNickname("Bob");
         member.updateTown("부산");
-
-        //when
-        repository.update(member);
 
         //then
         Member result = repository.findById(member.getMemberId()).orElseThrow();
