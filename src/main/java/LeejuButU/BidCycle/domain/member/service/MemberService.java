@@ -10,24 +10,20 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@Transactional
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class MemberService {
 
     private final MemberRepository memberRepository;
 
     //회원 가입
+    @Transactional(readOnly = false)
     public Long join(Member member){
-        validateDuplicateMember(member);
+        if(memberRepository.existsById(member.getMemberId())){
+            throw new IllegalStateException("이미 존재하는 회원입니다.");
+        }
         memberRepository.save(member);
         return member.getMemberId();
-
-    }
-    private void validateDuplicateMember(Member member) {
-        memberRepository.findByNickname(member.getNickname())
-                .ifPresent(m -> {
-                    throw new IllegalStateException("이미 존재하는 회원입니다.");
-                });
     }
 
     //전체 회원 조회
@@ -36,13 +32,16 @@ public class MemberService {
     }
 
     //회원 한 명 조회
-    public Optional<Member> findOne(Long memberId){
-        return memberRepository.findById(memberId);
+    public Member findOne(Long memberId){
+        return memberRepository.findById(memberId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 회원을 찾을 수 없습니다."));
     }
 
     // 회원 정보 변경
+    @Transactional(readOnly = false)
     public void updateMember(Long memberId, Member updatedMember) {
-        Member member = memberRepository.findById(memberId).orElseThrow();
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 회원을 찾을 수 없습니다."));
 
         // 변경할 정보를 새로운 정보로 업데이트
         member.updatePassword(updatedMember.getPassword());
@@ -54,8 +53,10 @@ public class MemberService {
     }
 
     // 회원 탈퇴
+    @Transactional(readOnly = false)
     public void withdrawMember(Long memberId) {
-        Member member = memberRepository.findById(memberId).orElseThrow();
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 회원을 찾을 수 없습니다."));
         memberRepository.delete(member);
     }
 
