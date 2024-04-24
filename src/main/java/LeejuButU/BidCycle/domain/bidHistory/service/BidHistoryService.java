@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -36,6 +37,7 @@ public class BidHistoryService {
                 .bidder(bidder)
                 .product(product)
                 .bidPrice(price)
+                .bidTime(LocalDateTime.now())
                 .build();
         bidHistoryRepository.save(bidHistory);
         return bidHistory;
@@ -47,14 +49,16 @@ public class BidHistoryService {
     }
 
     // 상품 하나에 대한 입찰 내역 데이터 조회
-    public List<BidHistory> findAllBidHistoryFromProduct(Product product) {
+    public List<BidHistory> findAllBidHistoryOfProduct(Product product) {
         return bidHistoryRepository.findAllByProduct(product);
     }
 
     private void validateBidPriceIsGreaterThanBefore(Product product, long price) {
-        BidHistory bidHistory = bidHistoryRepository.findMostHighPriceBidHistoryInProduct(product);
-        if (price <= bidHistory.getBidPrice()) {
-            throw new IllegalArgumentException("가격은 반드시 이전 가격보다 높아야 합니다.");
-        }
+        bidHistoryRepository.findMostHighPriceBidHistoryInProduct(product)
+                .ifPresent(bidHistory -> {
+                    if (price <= bidHistory.getBidPrice()) {
+                        throw new IllegalArgumentException("가격은 반드시 이전 가격보다 높아야 합니다.");
+                    }
+                });
     }
 }

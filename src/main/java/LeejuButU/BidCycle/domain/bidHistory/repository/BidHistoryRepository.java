@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface BidHistoryRepository extends JpaRepository<BidHistory, Long> {
     @Query("select b " +
@@ -14,7 +15,7 @@ public interface BidHistoryRepository extends JpaRepository<BidHistory, Long> {
             "where b.product = :product " +
             "order by b.bidPrice desc " +
             "limit 1")
-    BidHistory findMostHighPriceBidHistoryInProduct(@Param("product") Product product);
+    Optional<BidHistory> findMostHighPriceBidHistoryInProduct(@Param("product") Product product);
 
     List<BidHistory> findAllByProduct(Product product);
 }
