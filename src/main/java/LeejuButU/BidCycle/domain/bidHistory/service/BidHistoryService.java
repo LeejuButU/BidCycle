@@ -55,9 +55,13 @@ public class BidHistoryService {
 
     private void validateBidPriceIsGreaterThanBefore(Product product, long price) {
         bidHistoryRepository.findMostHighPriceBidHistoryInProduct(product)
-                .ifPresent(bidHistory -> {
+                .ifPresentOrElse(bidHistory -> {
                     if (price <= bidHistory.getBidPrice()) {
                         throw new IllegalArgumentException("가격은 반드시 이전 가격보다 높아야 합니다.");
+                    }
+                }, () -> {
+                    if (price < product.getStartPrice()) {
+                        throw new IllegalArgumentException("입찰 가격은 product에서 설정된 시작 가격보다 높아야 합니다.");
                     }
                 });
     }

@@ -35,6 +35,7 @@ public class BidHistoryServiceTest {
 
     private Member bidder, seller;
     private Product product;
+    private BidHistory lastBidHistory;
 
     @InjectMocks
     private BidHistoryService bidHistoryService;
@@ -44,10 +45,11 @@ public class BidHistoryServiceTest {
         bidder = Fixture.generateMember("buyer");
         seller = Fixture.generateMember("seller");
         product = Fixture.generateProduct(LocalDateTime.now(), bidder, seller);
+        lastBidHistory = Fixture.generateBidHistory(bidder, product);
     }
 
     @Test
-    @DisplayName("신규 입찰 테스트")
+    @DisplayName("최초 입찰 시 product에서 설정한 입찰가보다 높은 가격을 제시해야 한다.")
     public void bidProductTest() {
         // given
         when(memberRepository.findById(anyLong()))
@@ -56,10 +58,59 @@ public class BidHistoryServiceTest {
                 .thenReturn(Optional.of(product));
 
         // when
-        BidHistory createdBidHistory = bidHistoryService.bidProduct(1L, 1L, 2000);
+        BidHistory createdBidHistory = bidHistoryService.bidProduct(1L, 1L, 1500000);
 
         // then
         verify(bidHistoryRepository, times(1)).save(createdBidHistory);
+    }
+
+    @Test
+    @DisplayName("최초 입찰 시 product에서 설정한 입찰 시작가보다 낮은 가격을 제시하면 에러가 발생한다.")
+    public void bidProductWithLowerPriceThanStartPriceTest() {
+        // given
+        when(memberRepository.findById(anyLong()))
+                .thenReturn(Optional.of(seller));
+        when(productRepository.findById(anyLong()))
+                .thenReturn(Optional.of(product));
+
+        // when & then
+        Assertions.assertThatThrownBy(
+                () -> {bidHistoryService.bidProduct(1L, 1L, 15000);})
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    @DisplayName("추가 입찰 시 기존 입찰가보다 낮은 가격을 제시하면 에러가 발생한다.")
+    public void bidProductWithLowerPriceTest() {
+        // given
+        when(memberRepository.findById(anyLong()))
+                .thenReturn(Optional.of(seller));
+        when(productRepository.findById(anyLong()))
+                .thenReturn(Optional.of(product));
+        when(bidHistoryRepository.findMostHighPriceBidHistoryInProduct(any()))
+                .thenReturn(Optional.of(lastBidHistory));
+
+        // when & then
+        Assertions.assertThatThrownBy(() -> {
+            bidHistoryService.bidProduct(1L, 1L, lastBidHistory.getBidPrice());
+        }).isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    @DisplayName("추가 입찰 시 기존 입찰가와 같은 가격을 제시하면 에러가 발생한다.")
+    public void bidProductWithSamePriceTest() {
+        // given
+        when(memberRepository.findById(anyLong()))
+                .thenReturn(Optional.of(seller));
+        when(productRepository.findById(anyLong()))
+                .thenReturn(Optional.of(product));
+        when(bidHistoryRepository.findMostHighPriceBidHistoryInProduct(any()))
+                .thenReturn(Optional.of(lastBidHistory));
+
+        // when & then
+        Assertions.assertThatThrownBy(() -> {
+            BidHistory createdBidHistory = bidHistoryService.bidProduct(1L, 1L, 2000);
+        }).isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
