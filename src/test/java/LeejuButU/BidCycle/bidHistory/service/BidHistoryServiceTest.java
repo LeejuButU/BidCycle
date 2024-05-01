@@ -49,7 +49,7 @@ public class BidHistoryServiceTest {
     }
 
     @Test
-    @DisplayName("최초 입찰 시 product에서 설정한 입찰가보다 높은 가격을 제시해야 한다.")
+    @DisplayName("최초 입찰 시 product에서 설정한 시작가보다 같거나 높은 가격을 제시해야 한다.")
     public void bidProductTest() {
         // given
         when(memberRepository.findById(anyLong()))
@@ -58,10 +58,11 @@ public class BidHistoryServiceTest {
                 .thenReturn(Optional.of(product));
 
         // when
-        BidHistory createdBidHistory = bidHistoryService.bidProduct(1L, 1L, 1500000);
+        BidHistory createdBidHistory = bidHistoryService.bidProduct(1L, 1L, product.getStartPrice());
 
         // then
         verify(bidHistoryRepository, times(1)).save(createdBidHistory);
+        Assertions.assertThat(product.getCurrentPrice()).isEqualTo(product.getStartPrice());
     }
 
     @Test
@@ -75,12 +76,12 @@ public class BidHistoryServiceTest {
 
         // when & then
         Assertions.assertThatThrownBy(
-                () -> {bidHistoryService.bidProduct(1L, 1L, 15000);})
+                () -> {bidHistoryService.bidProduct(1L, 1L, product.getStartPrice()-100);})
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
-    @DisplayName("추가 입찰 시 기존 입찰가보다 낮은 가격을 제시하면 에러가 발생한다.")
+    @DisplayName("추가 입찰 시 기존 입찰가와 같은 가격을 제시하면 에러가 발생한다.")
     public void bidProductWithLowerPriceTest() {
         // given
         when(memberRepository.findById(anyLong()))
@@ -97,7 +98,7 @@ public class BidHistoryServiceTest {
     }
 
     @Test
-    @DisplayName("추가 입찰 시 기존 입찰가와 같은 가격을 제시하면 에러가 발생한다.")
+    @DisplayName("추가 입찰 시 기존 입찰가보다 낮은 가격을 제시하면 에러가 발생한다.")
     public void bidProductWithSamePriceTest() {
         // given
         when(memberRepository.findById(anyLong()))
@@ -109,7 +110,7 @@ public class BidHistoryServiceTest {
 
         // when & then
         Assertions.assertThatThrownBy(() -> {
-            BidHistory createdBidHistory = bidHistoryService.bidProduct(1L, 1L, 2000);
+            bidHistoryService.bidProduct(1L, 1L, lastBidHistory.getBidPrice());
         }).isInstanceOf(IllegalArgumentException.class);
     }
 

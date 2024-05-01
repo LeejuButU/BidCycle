@@ -39,6 +39,8 @@ public class BidHistoryService {
                 .bidPrice(price)
                 .bidTime(LocalDateTime.now())
                 .build();
+
+        product.updatePrice(price);
         bidHistoryRepository.save(bidHistory);
         return bidHistory;
     }
