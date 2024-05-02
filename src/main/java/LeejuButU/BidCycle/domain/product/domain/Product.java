@@ -76,4 +76,8 @@ public class Product {
         this.buyer = buyer;
         this.seller = seller;
     }
+
+    public void updatePrice(long price) {
+        this.currentPrice = price;
+    }
 }
